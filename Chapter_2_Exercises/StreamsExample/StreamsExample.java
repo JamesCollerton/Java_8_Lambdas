@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.*;
 
 public class StreamsExample {
 
@@ -8,6 +9,7 @@ public class StreamsExample {
 		streamExample();
 		collectMapFilterExample();
 		flatMapExample();
+		reduceExample();
 	}
 
 	public static ArrayList<String> createList() {
@@ -50,6 +52,14 @@ public class StreamsExample {
 			.collect(Collectors.toList())
 			.forEach(x -> System.out.println(x));		
 
+	}
+
+	public static void reduceExample() {
+		ArrayList<Integer> arrList = new ArrayList<Integer>();
+
+		Stream.of(1, 2, 3, 4).forEach(x -> arrList.add(x));	
+		
+		System.out.println("Result " + arrList.stream().reduce((x, y) -> x + y).get());
 	}
 
 }
