@@ -9,11 +9,11 @@ public class Exercise2 {
 
 		List<String> list = new ArrayList<String>();
 
-		CommonStreamOperations.maxLowerCaseLetters(list);
+		System.out.println("" + CommonStreamOperations.maxLowerCaseLetters(list));
 
 		Stream.of("hello", "HELLO").forEach(c -> list.add(c));
 
-		CommonStreamOperations.maxLowerCaseLetters(list);
+		System.out.println("" + CommonStreamOperations.maxLowerCaseLetters(list));
 		
 	}
 

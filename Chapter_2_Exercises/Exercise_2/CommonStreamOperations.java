@@ -38,10 +38,12 @@ public class CommonStreamOperations {
 	public static Optional<String> maxLowerCaseLetters(List<String> input) {
 		if (input.isEmpty()) return Optional.empty();
 		return Optional.of(
-			IntStream.range(0, input.size())
+			input.get(IntStream.range(0, input.size())
 					.reduce((i, j) -> {
-						return countLowerCaseLetters(input.get(i)) > countLowerCaseLetters(input.get(j)) ? input.get(i) : input.get(j);
+						return countLowerCaseLetters(input.get(i)) > countLowerCaseLetters(input.get(j)) ? i : j;
 					})
+					.getAsInt()
+			)
 		);
 	}
 
