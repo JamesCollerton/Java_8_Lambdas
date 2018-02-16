@@ -2,6 +2,8 @@ import java.util.stream.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.*;
+import java.util.*;
 
 public class CommonStreamOperations {
 
@@ -46,5 +48,21 @@ public class CommonStreamOperations {
 			)
 		);
 	}
+
+	//Write an implementation of the Stream function map using only 
+	//reduce and lambda expressions. You can return a List instead 
+	//of a Stream if you want.
+	public static <A> List<A> map(Stream<A> stream, UnaryOperator<A> f) {
+		stream.reduce((headList, tailItem) -> {
+			
+			headList.add(f.apply(tailItem))
+		});
+	
+		return stream.collect(Collectors.toList());
+	}
+
+	//Write an implementation of the Stream function filter using 
+	//only reduce and lambda expressions. Again, you can return a 
+	//List instead of a Stream if you want.
 
 }
