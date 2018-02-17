@@ -52,13 +52,29 @@ public class CommonStreamOperations {
 	//Write an implementation of the Stream function map using only 
 	//reduce and lambda expressions. You can return a List instead 
 	//of a Stream if you want.
+
 	public static <A> List<A> map(Stream<A> stream, UnaryOperator<A> f) {
-		stream.reduce((headList, tailItem) -> {
-			
-			headList.add(f.apply(tailItem))
-		});
-	
-		return stream.collect(Collectors.toList());
+		
+		// This is the seed. It is either the initial value of the reduction or
+		// what we return for the empty list case 
+		ArrayList<A> seed = new ArrayList<>();
+
+		// This accumulator function is used to take the partial result of the
+		// reduction (the array list) and carry out a method on the next element
+		// of the stream (y). It then returns the partial result of reduce. 
+		BiFunction<List<A>, A, List<A>> accumulator = (x, y) -> {
+			x.add(f.apply(y));
+			return x;
+		};
+
+		// This is used to combine all of the partials now we are actually
+		// dealing with two variables of the same type.
+		BinaryOperator<List<A>> combiner = (x, y) -> {
+			x.addAll(y);
+			return x;
+		};
+
+		return stream.reduce(seed, accumulator, combiner);
 	}
 
 	//Write an implementation of the Stream function filter using 
