@@ -81,4 +81,22 @@ public class CommonStreamOperations {
 	//only reduce and lambda expressions. Again, you can return a 
 	//List instead of a Stream if you want.
 
+	public static <A> List<A> filter(Stream<A> stream, Predicate<A> f) {
+		
+		ArrayList<A> seed = new ArrayList<>();
+
+		BiFunction<List<A>, A, List<A>> accumulator = (x, y) -> {
+			if(f.test(y)) x.add(y);
+			return x;
+		};
+
+		BinaryOperator<List<A>> combiner = (x, y) -> {
+			x.addAll(y);
+			return x;
+		};
+
+		return stream.reduce(seed, accumulator, combiner);
+	}
+
+
 }
