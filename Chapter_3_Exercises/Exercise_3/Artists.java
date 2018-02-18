@@ -23,6 +23,6 @@ public class Artists {
 
 	public String getArtistName(int index) {
 		Optional<Artist> artist = getArtist(index);
-		return artist.isPresent() ? artist.get().getName() : "unknown";
+		return artist.map(Artist::getName).orElse("unknown");
 	}
 }
