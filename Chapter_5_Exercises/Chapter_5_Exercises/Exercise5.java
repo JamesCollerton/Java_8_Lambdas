@@ -8,7 +8,8 @@ public class Exercise5 {
 		//new MethodReferences();
 		
 		longestName();
-		countNames();	
+		countNames();
+		customGroupBy();
 	}
 
 	public static void longestName() {
@@ -36,5 +37,10 @@ public class Exercise5 {
 		names.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((k, v) -> {
 			System.out.println("Key " + k + " Value " + v);
 		});	
+	}
+
+	public static void customGroupBy(){
+		Stream<String> names = Stream.of("John", "Paul", "George", "John", "Paul", "John");
+		names.collect(new GroupingBy<String, String>(Function.identity())).forEach((k, v) -> System.out.println("K " + k + " V " + v));
 	}
 }

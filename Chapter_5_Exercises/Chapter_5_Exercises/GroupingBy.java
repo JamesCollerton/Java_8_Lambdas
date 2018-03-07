@@ -17,13 +17,10 @@ public class GroupingBy<T, K> implements Collector<T, Map<K, List<T>>, Map<K, Li
 
 	@Override
 	public BiConsumer<Map<K, List<T>>, T> accumulator() {	
-		return (a, b) -> {
-			if(a.containsKey(b)) {
-				a.get(b).add(b);
-			} else {
-				// Need a function here
-				a.put(f.apply(b), Arrays.asList(b));
-			}
+		return (map, element) -> {
+			K key = f.apply(element);
+			List<T> elements = map.computeIfAbsent(key, k -> new ArrayList<>());
+			elements.add(element);
 		}; 
 	}
 
@@ -35,7 +32,13 @@ public class GroupingBy<T, K> implements Collector<T, Map<K, List<T>>, Map<K, Li
 	@Override
     	public BinaryOperator<Map<K, List<T>>> combiner() {
 		return (mapA, mapB) -> {
-			mapA.forEach((k, v) -> mapB.merge(k, v, v.addAll(mapB.get(k))));
+			mapA.forEach((k, v) -> {
+				mapB.merge(k, v, (leftValue, rightValue) -> {
+					leftValue.addAll(rightValue);
+					return leftValue;
+				});
+			});
+			return mapB;
 		};
 	};
 
