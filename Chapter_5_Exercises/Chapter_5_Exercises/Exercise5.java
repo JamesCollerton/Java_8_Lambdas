@@ -1,5 +1,6 @@
 import java.util.stream.*;
 import java.util.*;
+import java.util.function.*;
 
 public class Exercise5 {
 
@@ -7,7 +8,7 @@ public class Exercise5 {
 		//new MethodReferences();
 		
 		longestName();
-		
+		countNames();	
 	}
 
 	public static void longestName() {
@@ -30,4 +31,10 @@ public class Exercise5 {
 		System.out.println(names.collect(Collectors.maxBy(Comparator.comparing(String::length))).get());
 	}
 
+	public static void countNames() {
+		Stream<String> names = Stream.of("John", "Paul", "George", "John", "Paul", "John");
+		names.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((k, v) -> {
+			System.out.println("Key " + k + " Value " + v);
+		});	
+	}
 }
