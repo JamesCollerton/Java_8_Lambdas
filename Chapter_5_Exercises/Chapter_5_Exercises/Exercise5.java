@@ -10,6 +10,7 @@ public class Exercise5 {
 		longestName();
 		countNames();
 		customGroupBy();
+		fibonacciGenerate();
 	}
 
 	public static void longestName() {
@@ -43,4 +44,15 @@ public class Exercise5 {
 		Stream<String> names = Stream.of("John", "Paul", "George", "John", "Paul", "John");
 		names.collect(new GroupingBy<String, String>(Function.identity())).forEach((k, v) -> System.out.println("K " + k + " V " + v));
 	}
+	
+	public static void fibonacciGenerate() {
+		HashMap<Integer, Integer> fibonacci = new HashMap<Integer, Integer>();
+		fibonacci.put(0, 1);
+		fibonacci.put(1, 1);
+		IntStream.rangeClosed(2, 5).forEach(i -> {
+			fibonacci.computeIfAbsent(i, k -> fibonacci.get(k - 1) + fibonacci.get(k - 2));
+		});
+		System.out.println(fibonacci.get(5));
+	}
+
 }
